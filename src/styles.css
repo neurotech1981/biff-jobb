@@ -103,7 +103,7 @@ body {
       text-rendering: geometricPrecision;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
-      background-image: linear-gradient( 135deg, #F05F57 10%, #360940 100%);
+    /*  background-image: linear-gradient( 135deg, #F05F57 10%, #360940 100%);*/
 }
 
 *,
