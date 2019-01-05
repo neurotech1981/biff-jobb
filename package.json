@@ -11,6 +11,7 @@
     "moment": "^2.23.0",
     "mongoose": "^5.4.2",
     "nodemon": "^1.18.9",
+    "http-proxy-middleware": "^0.19.1",
     "popper.js": "^1.14.6",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
