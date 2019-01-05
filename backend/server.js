@@ -4,7 +4,7 @@ const bodyParser = require("body-parser");
 const logger = require("morgan");
 const Data = require("./data");
 
-const API_PORT = 3001;
+var API_PORT = process.env.PORT;
 const app = express();
 const router = express.Router();
 
