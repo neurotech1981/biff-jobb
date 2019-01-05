@@ -4,13 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "concurrently \"cd backend && node server.js\" \"cd /Users/neurotech/Programming/client/ npm start\""
-    "start": "node server",
+    "start": "node server.js",
     "heroku-postbuild": "cd .. && npm install && npm install --only=dev --no-shrinkwrap && cd .. npm run build"
   },
     "cacheDirectories": [
     "node_modules",
-    "react-ui/node_modules"
+    "../node_modules"
   ],
   "keywords": [],
   "author": "",
