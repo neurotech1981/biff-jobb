@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+    "engines": {
+    "node": "10.15.0"
+  },
   "scripts": {
     "start": "node server.js",
     "heroku-postbuild": "cd .. && npm install && npm install --only=dev --no-shrinkwrap && cd .. npm run build"
