@@ -27,6 +27,13 @@
     "eject": "react-scripts eject"
   },
   "proxy": "http://localhost:5000",
+   "proxy": {
+    "/api": {
+      "target": "https://biff-jobb.herokuapp.com",
+      "ws": true
+      // ...
+    }
+  },
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
   "main": "index.js",
   "devDependencies": {
