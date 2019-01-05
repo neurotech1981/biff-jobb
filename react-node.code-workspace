@@ -1,0 +1,22 @@
+{
+  "folders": [
+    {
+      "path": "."
+    },
+    {
+      "path": "C:\\Users\\neurotech\\Desktop\\Prosjekter\\devsocial"
+    },
+    {
+      "path": "C:\\Users\\neurotech\\Desktop\\Prosjekter\\htdocs\\htdocs"
+    },
+    {
+      "path": "C:\\Users\\neurotech\\Desktop\\Prosjekter\\react-learn"
+    },
+    {
+      "path": "C:\\Users\\neurotech\\Desktop\\Prosjekter\\react-weather"
+    }
+  ],
+  "settings": {
+    "liveServer.settings.multiRootWorkspaceName": "htdocs"
+  }
+}
