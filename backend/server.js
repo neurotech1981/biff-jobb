@@ -11,10 +11,14 @@ const router = express.Router();
 // this is our MongoDB database
 const dbRoute = "mongodb://jobb:946Dypew!@ds247223.mlab.com:47223/jobb-biff";
 
+// Validation
+const validateInput = require("../validation/input-validation");
+
 // connects our back end code with the database
 mongoose.connect(
-  dbRoute,
-  { useNewUrlParser: true }
+  dbRoute, {
+    useNewUrlParser: true
+  }
 );
 
 let db = mongoose.connection;
@@ -26,7 +30,9 @@ db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
 // (optional) only made for logging and
 // bodyParser, parses the request body to be a readable json format
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
 app.use(bodyParser.json());
 app.use(logger("dev"));
 
@@ -34,31 +40,38 @@ app.use(logger("dev"));
 // this method fetches all available data in our database
 router.get("/getData", (req, res) => {
   Data.find((err, data) => {
-    if (err) return res.json({ success: false, error: err });
-    return res.json({ success: true, data: data });
+    if (err) return res.json({
+      success: false,
+      error: err
+    });
+    return res.json({
+      success: true,
+      data: data
+    });
   });
 });
 
-
-//api for Update data from database  
-/*router.post("/updateData",function(req,res){   
-  Data.findByIdAndUpdate(req.params.id, {$set: req.body},   
- function(err) {  
-  if (err) {  
-  res.send(err);  
-  return;  
-  }  
-  res.send({data:"Record has been Updated..!!"});  
-
-  });  
- })
- */
 router.post("/updateDate", (req, res) => {
   let data = new Data();
 
-  const { id, varenummer, varenavn, pdato, bf, lokasjon, vekt } = req.body;
-
-  if ((!id && id !== 0) || !varenummer || !varenavn || !pdato || !bf || !lokasjon || !vekt) {
+  const {
+    id,
+    varenummer,
+    varenavn,
+    pdato,
+    bf,
+    lokasjon,
+    vekt
+  } = req.body;
+  if (
+    (!id && id !== 0) ||
+    !varenummer ||
+    !varenavn ||
+    !pdato ||
+    !bf ||
+    !lokasjon ||
+    !vekt
+  ) {
     return res.json({
       success: false,
       error: "INVALID INPUTS"
@@ -72,45 +85,87 @@ router.post("/updateDate", (req, res) => {
   data.lokasjon = lokasjon;
   data.vekt = vekt;
   data.save(err => {
-    if (err) return res.json({ success: false, error: err });
-    return res.json({ success: true });
+    if (err) return res.json({
+      success: false,
+      error: err
+    });
+    return res.json({
+      success: true
+    });
   });
 });
-
 
 // this is our old update method
 // this method overwrites existing data in our database
 router.post("/updateData", (req, res) => {
-  const { id, update } = req.body;
+  const {
+    id,
+    update
+  } = req.body;
   Data.findByIdAndUpdate(id, update, err => {
-    if (err) return res.json({ success: false, error: err });
-    return res.json({ success: true });
+    if (err) return res.json({
+      success: false,
+      error: err
+    });
+    return res.json({
+      success: true
+    });
   });
 });
 
 // this is our delete method
 // this method removes existing data in our database
 router.delete("/deleteData", (req, res) => {
-  const { id } = req.body;
+  const {
+    id
+  } = req.body;
   Data.findByIdAndRemove(id, err => {
     if (err) return res.send(err);
-    return res.json({ success: true });
+    return res.json({
+      success: true
+    });
   });
 });
 
 // this is our create method
 // this method adds new data in our database
 router.post("/putData", (req, res) => {
+  const {
+    errors,
+    isValid
+  } = validateInput(req.body);
+
+  // Check Validation
+  if (!isValid) {
+    // If any errors, send 400 with errors object
+    return res.status(400).json(errors);
+  }
   let data = new Data();
+  const {
+    id,
+    varenummer,
+    varenavn,
+    pdato,
+    bf,
+    lokasjon,
+    vekt
+  } = req.body;
 
-  const { id, varenummer, varenavn, pdato, bf, lokasjon, vekt } = req.body;
-
-  if ((!id && id !== 0) || !varenummer || !varenavn || !pdato || !bf || !lokasjon || !vekt) {
+  if (
+    (!id && id !== 0) ||
+    !varenummer ||
+    !varenavn ||
+    !pdato ||
+    !bf ||
+    !lokasjon ||
+    !vekt
+  ) {
     return res.json({
       success: false,
       error: "INVALID INPUTS"
     });
   }
+
   data.varenummer = varenummer;
   data.id = id;
   data.varenavn = varenavn;
@@ -119,8 +174,13 @@ router.post("/putData", (req, res) => {
   data.lokasjon = lokasjon;
   data.vekt = vekt;
   data.save(err => {
-    if (err) return res.json({ success: false, error: err });
-    return res.json({ success: true });
+    if (err) return res.json({
+      success: false,
+      error: err
+    });
+    return res.json({
+      success: true
+    });
   });
 });
 
