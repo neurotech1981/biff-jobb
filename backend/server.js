@@ -27,7 +27,7 @@ db.once("open", () => console.log("connected to the database"));
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
 var customRouter = function(req) {
-  return 'https://biff-jobb.herokuapp.com' // protocol + host
+  return 'https://localhost' // protocol + host
 }
 
 var options = {
