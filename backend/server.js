@@ -43,7 +43,7 @@ app.use(logger("dev"));
 
 // this is our get method
 // this method fetches all available data in our database
-router.get("/getData", (req, res) => {
+proxy.get("/getData", (req, res) => {
   Data.find((err, data) => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true, data: data });
@@ -64,7 +64,7 @@ router.get("/getData", (req, res) => {
   });  
  })
  */
-router.post("/updateDate", (req, res) => {
+proxy.post("/updateDate", (req, res) => {
   let data = new Data();
 
   const { id, varenummer, varenavn, pdato, bf, lokasjon, vekt } = req.body;
@@ -91,7 +91,7 @@ router.post("/updateDate", (req, res) => {
 
 // this is our old update method
 // this method overwrites existing data in our database
-router.post("/updateData", (req, res) => {
+proxy.post("/updateData", (req, res) => {
   const { id, update } = req.body;
   Data.findByIdAndUpdate(id, update, err => {
     if (err) return res.json({ success: false, error: err });
@@ -101,7 +101,7 @@ router.post("/updateData", (req, res) => {
 
 // this is our delete method
 // this method removes existing data in our database
-router.delete("/deleteData", (req, res) => {
+proxy.delete("/deleteData", (req, res) => {
   const { id } = req.body;
   Data.findByIdAndRemove(id, err => {
     if (err) return res.send(err);
@@ -111,7 +111,7 @@ router.delete("/deleteData", (req, res) => {
 
 // this is our create method
 // this method adds new data in our database
-router.post("/putData", (req, res) => {
+proxy.post("/putData", (req, res) => {
   let data = new Data();
 
   const { id, varenummer, varenavn, pdato, bf, lokasjon, vekt } = req.body;
