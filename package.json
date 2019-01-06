@@ -22,7 +22,7 @@
     "validator": "^10.10.0"
   },
   "scripts": {
-    "start": "concurrently \"npm start\" \"cd backend/ && node server.js"",
+    "start": "concurrently \"npm start\" \"cd backend/ && node server.js\"",
     "start2": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
