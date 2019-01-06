@@ -32,7 +32,6 @@ var customRouter = function(req) {
 
 var options = {
   target: 'http://localhost:5000',
-  changeOrigin: true, // for vhosted sites, changes host header to match to target's host
   router: customRouter
 }
 
