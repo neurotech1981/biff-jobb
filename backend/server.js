@@ -6,7 +6,7 @@ const logger = require("morgan");
 
 const Data = require("./data");
 
-const API_PORT = process.env.PORT || 5000;
+const API_PORT = process.env.PORT;
 const app = express();
 const router = express.Router();
 
