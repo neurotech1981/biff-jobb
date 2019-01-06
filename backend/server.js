@@ -138,7 +138,6 @@ router.post("/putData", (req, res) => {
 var myProxy = proxy(options)
 
 // append /api for our http requests / was app.use("/api", router);
-app.use("/api", router);
 app.use("/api", myProxy);
 
 // launch our backend into a port
