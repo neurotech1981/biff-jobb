@@ -1,7 +1,9 @@
 const mongoose = require("mongoose");
 const express = require("express");
 const bodyParser = require("body-parser");
+var proxy = require('http-proxy-middleware')
 const logger = require("morgan");
+
 const Data = require("./data");
 
 const API_PORT = process.env.PORT || 5000;
@@ -23,6 +25,16 @@ db.once("open", () => console.log("connected to the database"));
 
 // checks if connection with the database is successful
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
+
+var customRouter = function(req) {
+  return 'https://biff-jobb.herokuapp.com' // protocol + host
+}
+
+var options = {
+  target: 'http://localhost:5000',
+  changeOrigin: true, // for vhosted sites, changes host header to match to target's host
+  router: customRouter
+}
 
 // (optional) only made for logging and
 // bodyParser, parses the request body to be a readable json format
@@ -124,8 +136,10 @@ router.post("/putData", (req, res) => {
   });
 });
 
-// append /api for our http requests
-app.use("/api", router);
+var myProxy = proxy(options)
+
+// append /api for our http requests / was app.use("/api", router);
+app.use("/api", myProxy);
 
 // launch our backend into a port
 app.listen(API_PORT, () => console.log(`LISTENING ON PORT ${API_PORT}`));
