@@ -22,11 +22,10 @@
     "validator": "^10.10.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-scripts start && cd backend && node server.js",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject",
-    "start": "node /backend/server.js"
+    "eject": "react-scripts eject"
   },
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
   "main": "index.js",
