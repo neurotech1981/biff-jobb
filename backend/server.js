@@ -31,7 +31,7 @@ var customRouter = function(req) {
 }
 
 var options = {
-  target: 'http://localhost:5000',
+  target: 'http://localhost:3000',
   changeOrigin: true,
   router: customRouter
 }
