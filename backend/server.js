@@ -138,7 +138,7 @@ router.post("/putData", (req, res) => {
 var myProxy = proxy(options)
 
 // append /api for our http requests / was app.use("/api", router);
-app.use("/api", myProxy);
+app.use("/api", router);
 
 // launch our backend into a port
 app.listen(API_PORT, () => console.log(`LISTENING ON PORT ${API_PORT}`));
