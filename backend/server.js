@@ -3,6 +3,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const logger = require("morgan");
 const Data = require("./data");
+const path = require("path");
 
 const API_PORT = 3001;
 const app = express();
@@ -35,6 +36,7 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 app.use(logger("dev"));
+app.use(express.static(path.join(__dirname, "client/build")))
 
 // this is our get method
 // this method fetches all available data in our database
