@@ -32,7 +32,7 @@ var customRouter = function(req) {
 
 var options = {
   target: 'http://localhost:5000',
-  router: customRouter
+  router: router
 }
 
 // (optional) only made for logging and
