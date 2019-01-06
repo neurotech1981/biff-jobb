@@ -31,7 +31,7 @@ var customRouter = function(req) {
 }
 
 var options = {
-  target: 'http://localhost:5000',
+  target: 'https://biff-jobb.herokuapp.com:5000',
   router: customRouter
 }
 
