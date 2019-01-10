@@ -16,11 +16,14 @@ const dbRoute = "mongodb://jobb:946Dypew!@ds247223.mlab.com:47223/jobb-biff";
 const validateInput = require("../validation/input-validation");
 
 // connects our back end code with the database
-mongoose.connect(
-  dbRoute, {
-    useNewUrlParser: true
+try {
+  mongoose.connect(
+    dbRoute, {
+      useNewUrlParser: true
+    }
+  );
+  } catch (error) {
   }
-);
 
 let db = mongoose.connection;
 
@@ -36,7 +39,11 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 app.use(logger("dev"));
-app.use(express.static(path.join(__dirname, "client/build")))
+app.use(express.static(path.join(__dirname, "../build")));
+app.get('/', function (req, res, next) {
+  res.sendFile(path.resolve('../build/index.html'));
+});
+//app.use(express.static(path.join(__dirname, "client/build")))
 
 // this is our get method
 // this method fetches all available data in our database
