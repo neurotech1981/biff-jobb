@@ -1,4 +1,22 @@
-// /client/App.js
+
+/*
+Biff oversikt web-applikasjon for lagring av data på ett fryselager.
+
+Med mulighet for å ha paller med flere forskjellige biff varienter i en og samme reol lokasjon.
+
+
+
+@Todo:
+
+- Mulighet for varsling når varer holder på og gå ut på dato. (10 dager før Best før dato)
+- Fargekoding av forskjellige biff varienter
+  * Indrefilet
+  * Ytrefilet
+  * Entrecôte
+  * Mørbrad
+  * Flatbiff
+
+*/
 import React, { Component } from "react";
 import axios from "axios";
 import "./styles.css";
@@ -31,7 +49,7 @@ class App extends Component {
       value: "",
       errors: {}
     };
-    // preserve the initial state in a new object
+    // Preserve the initial state in a new object
     this.baseState = this.state;
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -55,20 +73,19 @@ class App extends Component {
       this.setState({ intervalIsSet: null });
     }
   }
-
+  //
   handleSubmit = (e) => {
     e.preventDefault();
     if(this.setState > 0 )
     this.setState(this.baseState);
   }
-
-  // just a note, here, in the front end, we use the id key of our data object
-  // in order to identify which we want to Update or delete.
-  // for our back end, we use the object id assigned by MongoDB to modify
-  // data base entries
-
-  // our first get method that uses our backend api to
-  // fetch data from our data base
+  //Reset form
+  handleClear = (e) => {
+    e.preventDefault();
+    document.getElementById("myForm").value = "";
+    this.setState(this.baseState);
+  }
+  // Hent inn database innhold med backend API
   getDataFromDb = () => {
     fetch("/api/getData")
       .then(data => data.json())
@@ -76,9 +93,9 @@ class App extends Component {
       .catch(error => console.error(error));
   };
 
-  // our put method that uses our backend api
-  // to create new query into our data base
-  putDataToDB = (varenummer, varenavn, pdato, bf, lokasjon, vekt) => {
+  // Legg inn ny query / varelinje i database med backend API
+  putDataToDB = (e) => {
+    e.preventDefault();
     let currentIds = this.state.data.map(data => data.id);
     let idToBeAdded = 0;
     while (currentIds.includes(idToBeAdded)) {
@@ -88,21 +105,22 @@ class App extends Component {
     axios
       .post("/api/putData", {
         id: idToBeAdded,
-        varenummer: varenummer,
-        varenavn: varenavn,
-        pdato: pdato,
-        bf: bf,
-        lokasjon: lokasjon,
-        vekt: vekt
+        varenummer: this.state.varenummer,
+        varenavn: this.state.varenavn,
+        pdato: this.state.pdato,
+        bf: this.state.bf,
+        lokasjon: this.state.lokasjon,
+        vekt: this.state.vekt
       }
       )    
       .catch(err => this.setState({ errors: err.response.data }));
-      // clear errors on submit if any present before correcting old error
+      // clear errors on submit if any present, before correcting old error
       this.setState({errors: ''})
+      if(this.setState.length > 0 )
+      this.setState(this.baseState);
   }
 
-  // our delete method that uses our backend api
-  // to remove existing database information
+  // Slette metode for fjerning av varelinje i database med backend API
   deleteFromDB = idTodelete => {
     let objIdToDelete = null;
     this.state.data.forEach(dat => {
@@ -129,7 +147,7 @@ class App extends Component {
       id: items._id
     });
   };
-
+  // Rediger varelinje og oppdater database
   updateDB = (
     idToBeUpdated,
     varenummer,
@@ -155,12 +173,8 @@ class App extends Component {
       }
     });
   };
-  static submit() {
-    /*Reset form*/
-    document.getElementById("myForm").reset();
-  }
 
-  // UI Goes here
+  // UI
   render() {
     const { errors } = this.state;
     const { data } = this.state;
@@ -271,25 +285,16 @@ class App extends Component {
             <br />
             <button
               id="button-stor"
-              onClick={() =>
-                this.putDataToDB(
-                  this.state.varenummer,
-                  this.state.varenavn,
-                  this.state.pdato,
-                  this.state.bf,
-                  this.state.lokasjon,
-                  this.state.vekt
-                )
-              }
+              onClick={this.putDataToDB}
             >
               <MdNoteAdd /> Legg til
             </button>
-            <button className="btn btn-link float-left" onClick={App.submit}>
+            <button className="btn btn-link float-left" onClick={this.handleClear}>
               Tøm skjema
             </button>
           </form>
         </div>
-
+         {/* Modal boks for redigering av varelinje */}
         <div className="container">
           <div className="modal" id="endreVare">
             <div className="modal-dialog">
@@ -301,6 +306,7 @@ class App extends Component {
                     className="close"
                     style={{ width: "40px" }}
                     data-dismiss="modal"
+                    onClick={this.handleClear}
                   >
                     &times;
                   </button>
@@ -401,7 +407,7 @@ class App extends Component {
                       )
                     }
                   >
-                    <FaSave /> Lagre
+                    <FaSave/> Lagre
                   </button>
                 </div>
                 <div className="modal-footer">
@@ -409,6 +415,7 @@ class App extends Component {
                     type="button"
                     className="btn btn-danger"
                     data-dismiss="modal"
+                    onClick={this.handleClear}
                   >
                     Lukk
                   </button>
@@ -416,6 +423,7 @@ class App extends Component {
               </div>
             </div>
           </div>
+          {/* Slutt **** Modal boks for redigering av varelinje */}
           <h1 className="hr.stil1">Biff i Reol</h1>
           <hr className="stil1" />
           <p>
