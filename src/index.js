@@ -17,8 +17,8 @@ ReactDOM.render(
 $(document).ready(function() {
   $("#myInput").on("keyup", function() {
     const value = $(this)
-        .val()
-        .toLowerCase();
+      .val()
+      .toLowerCase();
     $("#myTable tr").filter(function() {
       $(this).toggle(
         $(this)

@@ -13,8 +13,8 @@ import classnames from "classnames";
 
 class App extends Component {
   // initialize our state
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       data: [],
       id: 0,
@@ -31,9 +31,9 @@ class App extends Component {
       value: "",
       errors: {}
     };
-    this.handleChange = this.handleChange.bind(this);
-    App.handleSubmit = App.handleSubmit.bind(this);
-    this.handleClearForm = this.handleClearForm.bind(this);
+    // preserve the initial state in a new object
+    this.baseState = this.state;
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   // when component mounts, first thing it does is fetch all existing data in our db
@@ -56,13 +56,10 @@ class App extends Component {
     }
   }
 
-  handleChange(event) {
-    this.setState({ value: event.target.value });
-  }
-
-  static handleSubmit(e) {
+  handleSubmit = (e) => {
     e.preventDefault();
-    e.target.reset();
+    if(this.setState > 0 )
+    this.setState(this.baseState);
   }
 
   // just a note, here, in the front end, we use the id key of our data object
@@ -87,7 +84,7 @@ class App extends Component {
     while (currentIds.includes(idToBeAdded)) {
       ++idToBeAdded;
     }
-
+    
     axios
       .post("/api/putData", {
         id: idToBeAdded,
@@ -97,20 +94,11 @@ class App extends Component {
         bf: bf,
         lokasjon: lokasjon,
         vekt: vekt
-      })
+      }
+      )    
       .catch(err => this.setState({ errors: err.response.data }));
-  };
-  // Our clear method of the inputs
-  handleClearForm(e) {
-    e.preventDefault();
-    this.setState({
-      varenummer: "",
-      varenavn: "",
-      pdato: "",
-      bf: "",
-      lokasjon: "",
-      vekt: ""
-    });
+      // clear errors on submit if any present before correcting old error
+      this.setState({errors: ''})
   }
 
   // our delete method that uses our backend api
@@ -167,29 +155,30 @@ class App extends Component {
       }
     });
   };
-
   static submit() {
     /*Reset form*/
     document.getElementById("myForm").reset();
   }
+
   // UI Goes here
   render() {
     const { errors } = this.state;
     const { data } = this.state;
     return (
+
       <div className="jumbotron-kontakt">
         <h1>Legg inn ny vare</h1>
         <div className="container">
           <form
             id="myForm"
             className="input-grid"
-            onSubmit={this.handleSubmit.bind(this)}
+            onSubmit={this.handleSubmit}
           >
             <span>
               <input
-                autoComplete="on"
+                value={this.state.varenummer}
                 type="text"
-                className={classnames("", {
+                className={classnames("form-control form-control-lg", {
                   "is-invalid": errors.varenummer
                 })}
                 maxLength="6"
@@ -204,9 +193,9 @@ class App extends Component {
 
             <span>
               <input
-                autoComplete="on"
+                value={this.state.varenavn}
                 type="text"
-                className={classnames("", {
+                className={classnames("form-control form-control-lg", {
                   "is-invalid": errors.varenavn
                 })}
                 onChange={e => this.setState({ varenavn: e.target.value })}
@@ -219,8 +208,9 @@ class App extends Component {
             </span>
             <span>
               <input
+                value={this.state.pdato}
                 type="date"
-                className={classnames("", {
+                className={classnames("form-control form-control-lg", {
                   "is-invalid": errors.pdato
                 })}
                 onChange={e => this.setState({ pdato: e.target.value })}
@@ -233,8 +223,9 @@ class App extends Component {
             </span>
             <span>
               <input
+                value={this.state.bf}
                 type="date"
-                className={classnames("", {
+                className={classnames("form-control form-control-lg", {
                   "is-invalid": errors.bf
                 })}
                 onChange={e => this.setState({ bf: e.target.value })}
@@ -245,9 +236,9 @@ class App extends Component {
             </span>
             <span>
               <input
-                autoComplete="on"
+                value={this.state.lokasjon}
                 type="text"
-                className={classnames("", {
+                className={classnames("form-control form-control-lg", {
                   "is-invalid": errors.lokasjon
                 })}
                 maxLength="4"
@@ -261,40 +252,43 @@ class App extends Component {
             </span>
             <span>
               <input
-                autoComplete="on"
+                value={this.state.vekt}
                 type="text"
-                className={classnames("", {
+                className={classnames("form-control form-control-lg", {
                   "is-invalid": errors.vekt
                 })}
                 maxLength="6"
                 onChange={e => this.setState({ vekt: e.target.value })}
                 placeholder="Vekt"
               />
-              {errors.vekt && <div className="text-danger">{errors.vekt}</div>}
+              {errors.vekt && (
+                <div className="text-danger">{errors.vekt}</div>
+              )}
+              
               <label>Vekt:</label>
             </span>
+
+            <br />
+            <button
+              id="button-stor"
+              onClick={() =>
+                this.putDataToDB(
+                  this.state.varenummer,
+                  this.state.varenavn,
+                  this.state.pdato,
+                  this.state.bf,
+                  this.state.lokasjon,
+                  this.state.vekt
+                )
+              }
+            >
+              <MdNoteAdd /> Legg til
+            </button>
+            <button className="btn btn-link float-left" onClick={App.submit}>
+              Tøm skjema
+            </button>
           </form>
         </div>
-
-        <br />
-        <button
-          id="button-stor"
-          onClick={() =>
-            this.putDataToDB(
-              this.state.varenummer,
-              this.state.varenavn,
-              this.state.pdato,
-              this.state.bf,
-              this.state.lokasjon,
-              this.state.vekt
-            )
-          }
-        >
-          <MdNoteAdd /> Legg til
-        </button>
-        <button className="btn btn-link float-left" onClick={App.submit}>
-          Tøm skjema
-        </button>
 
         <div className="container">
           <div className="modal" id="endreVare">
@@ -517,4 +511,5 @@ class App extends Component {
     );
   }
 }
+
 export default App;

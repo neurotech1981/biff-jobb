@@ -18,12 +18,12 @@ const validateInput = require("../validation/input-validation");
 // connects our back end code with the database
 try {
   mongoose.connect(
-    dbRoute, {
+    dbRoute,
+    {
       useNewUrlParser: true
     }
   );
-  } catch (error) {
-  }
+} catch (error) {}
 
 let db = mongoose.connection;
 
@@ -34,14 +34,16 @@ db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
 // (optional) only made for logging and
 // bodyParser, parses the request body to be a readable json format
-app.use(bodyParser.urlencoded({
-  extended: false
-}));
+app.use(
+  bodyParser.urlencoded({
+    extended: false
+  })
+);
 app.use(bodyParser.json());
 app.use(logger("dev"));
 app.use(express.static(path.join(__dirname, "../build")));
-app.get('/', function (req, res, next) {
-  res.sendFile(path.resolve('../build/index.html'));
+app.get("/", function(req, res, next) {
+  res.sendFile(path.resolve("../build/index.html"));
 });
 //app.use(express.static(path.join(__dirname, "client/build")))
 
@@ -49,10 +51,11 @@ app.get('/', function (req, res, next) {
 // this method fetches all available data in our database
 router.get("/getData", (req, res) => {
   Data.find((err, data) => {
-    if (err) return res.json({
-      success: false,
-      error: err
-    });
+    if (err)
+      return res.json({
+        success: false,
+        error: err
+      });
     return res.json({
       success: true,
       data: data
@@ -63,15 +66,7 @@ router.get("/getData", (req, res) => {
 router.post("/updateDate", (req, res) => {
   let data = new Data();
 
-  const {
-    id,
-    varenummer,
-    varenavn,
-    pdato,
-    bf,
-    lokasjon,
-    vekt
-  } = req.body;
+  const { id, varenummer, varenavn, pdato, bf, lokasjon, vekt } = req.body;
   if (
     (!id && id !== 0) ||
     !varenummer ||
@@ -94,10 +89,11 @@ router.post("/updateDate", (req, res) => {
   data.lokasjon = lokasjon;
   data.vekt = vekt;
   data.save(err => {
-    if (err) return res.json({
-      success: false,
-      error: err
-    });
+    if (err)
+      return res.json({
+        success: false,
+        error: err
+      });
     return res.json({
       success: true
     });
@@ -107,15 +103,13 @@ router.post("/updateDate", (req, res) => {
 // this is our old update method
 // this method overwrites existing data in our database
 router.post("/updateData", (req, res) => {
-  const {
-    id,
-    update
-  } = req.body;
+  const { id, update } = req.body;
   Data.findByIdAndUpdate(id, update, err => {
-    if (err) return res.json({
-      success: false,
-      error: err
-    });
+    if (err)
+      return res.json({
+        success: false,
+        error: err
+      });
     return res.json({
       success: true
     });
@@ -125,9 +119,7 @@ router.post("/updateData", (req, res) => {
 // this is our delete method
 // this method removes existing data in our database
 router.delete("/deleteData", (req, res) => {
-  const {
-    id
-  } = req.body;
+  const { id } = req.body;
   Data.findByIdAndRemove(id, err => {
     if (err) return res.send(err);
     return res.json({
@@ -139,10 +131,7 @@ router.delete("/deleteData", (req, res) => {
 // this is our create method
 // this method adds new data in our database
 router.post("/putData", (req, res) => {
-  const {
-    errors,
-    isValid
-  } = validateInput(req.body);
+  const { errors, isValid } = validateInput(req.body);
 
   // Check Validation
   if (!isValid) {
@@ -150,15 +139,7 @@ router.post("/putData", (req, res) => {
     return res.status(400).json(errors);
   }
   let data = new Data();
-  const {
-    id,
-    varenummer,
-    varenavn,
-    pdato,
-    bf,
-    lokasjon,
-    vekt
-  } = req.body;
+  const { id, varenummer, varenavn, pdato, bf, lokasjon, vekt } = req.body;
 
   if (
     (!id && id !== 0) ||
@@ -183,10 +164,11 @@ router.post("/putData", (req, res) => {
   data.lokasjon = lokasjon;
   data.vekt = vekt;
   data.save(err => {
-    if (err) return res.json({
-      success: false,
-      error: err
-    });
+    if (err)
+      return res.json({
+        success: false,
+        error: err
+      });
     return res.json({
       success: true
     });
