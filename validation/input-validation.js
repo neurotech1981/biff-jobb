@@ -36,7 +36,6 @@ module.exports = function validateInput(data) {
     errors.pdato = "Produksjon dato er påkrevd";
   }
 
-
   if (Validator.isEmpty(data.bf)) {
     errors.bf = "Best før dato er påkrevd";
   }
