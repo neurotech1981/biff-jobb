@@ -222,7 +222,7 @@ class App extends Component {
             </span>
             <span>
               <input
-                value={this.state.pdato}
+                value={moment(this.state.pdato).format("YYYY-MM-DD")}
                 type="date"
                 className={classnames("form-control form-control-lg", {
                   "is-invalid": errors.pdato
@@ -238,7 +238,7 @@ class App extends Component {
             </span>
             <span>
               <input
-                value={this.state.bf}
+                value={moment(this.state.bf).format("YYYY-MM-DD")}
                 type="date"
                 className={classnames("form-control form-control-lg", {
                   "is-invalid": errors.bf
