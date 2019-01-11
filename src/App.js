@@ -36,17 +36,17 @@ class App extends Component {
     this.state = {
       data: [],
       id: 0,
-      varenummer: "",
-      varenavn: "",
-      pdato: "",
-      bf: "",
-      lokasjon: "",
-      vekt: "",
+      varenummer: '',
+      varenavn: '',
+      pdato: '',
+      bf: '',
+      lokasjon: '',
+      vekt: '',
       intervalIsSet: false,
-      idToDelete: "",
-      idToUpdate: "",
-      objectToUpdate: "",
-      value: "",
+      idToDelete: '',
+      idToUpdate: '',
+      objectToUpdate: '',
+      value: '',
       errors: {}
     };
     // Preserve the initial state in a new object
@@ -228,7 +228,8 @@ class App extends Component {
                   "is-invalid": errors.pdato
                 })}
                 onChange={e => this.setState({ pdato: e.target.value })}
-                placeholder="(DD/MM/ÅÅÅÅ)"
+                placeholder="DD-MM-YYYY"
+                required pattern="(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])/(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])/(?:30))|(?:(?:0[13578]|1[02])-31))"
               />
               {errors.pdato && (
                 <div className="text-danger">{errors.pdato}</div>
@@ -243,7 +244,8 @@ class App extends Component {
                   "is-invalid": errors.bf
                 })}
                 onChange={e => this.setState({ bf: e.target.value })}
-                placeholder="(DD/MM/ÅÅÅÅ)"
+                placeholder="DD-MM-YYYY"
+                required pattern="(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])/(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])/(?:30))|(?:(?:0[13578]|1[02])-31))"
               />
               {errors.bf && <div className="text-danger">{errors.bf}</div>}
               <label>Best før dato:</label>
@@ -346,6 +348,8 @@ class App extends Component {
                         id="#endreVare"
                         value={moment(this.state.pdato).format("YYYY-MM-DD")}
                         onChange={e => this.setState({ pdato: e.target.value })}
+                        placeholder="DD-MM-YYYY"
+                        required pattern="(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])/(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])/(?:30))|(?:(?:0[13578]|1[02])-31))"
                       />
                     </span>
                     <span>
@@ -355,6 +359,8 @@ class App extends Component {
                         id="#endreVare"
                         value={moment(this.state.bf).format("YYYY-MM-DD")}
                         onChange={e => this.setState({ bf: e.target.value })}
+                        placeholder="DD-MM-YYYY"
+                        required pattern="(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])/(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])/(?:30))|(?:(?:0[13578]|1[02])-31))"
                       />
                     </span>
                     <span>
