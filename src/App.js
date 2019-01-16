@@ -2,8 +2,6 @@
 /*
 Biff oversikt web-applikasjon for lagring av data på ett fryselager.
 
-Med mulighet for å ha paller med flere forskjellige biff varienter i en og samme reol lokasjon.
-
 
 
 @Todo:
