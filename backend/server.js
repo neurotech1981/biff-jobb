@@ -45,7 +45,6 @@ app.use(express.static(path.join(__dirname, "../build")));
 app.get("/", function(req, res, next) {
   res.sendFile(path.resolve("../build/index.html"));
 });
-//app.use(express.static(path.join(__dirname, "client/build")))
 
 // this is our get method
 // this method fetches all available data in our database
