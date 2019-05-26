@@ -10,7 +10,7 @@ const app = express();
 const router = express.Router();
 
 // this is our MongoDB database
-const dbRoute = "mongodb://jobb:@ds247223.mlab.com:47223/jobb-biff";
+const dbRoute = "";
 
 // Validation
 const validateInput = require("../validation/input-validation");
