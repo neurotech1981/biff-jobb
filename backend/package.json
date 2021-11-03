@@ -12,6 +12,6 @@
   "dependencies": {
     "concurrently": "^4.0.1",
     "morgan": "^1.9.1",
-    "validator": "^10.9.0"
+    "validator": "^13.7.0"
   }
 }
