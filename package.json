@@ -12,7 +12,7 @@
     "jquery": "^3.3.1",
     "lodash": "^4.17.11",
     "moment": "^2.23.0",
-    "mongoose": "^5.4.2",
+    "mongoose": "^5.7.5",
     "nodemon": "^1.18.9",
     "popper.js": "^1.14.6",
     "react": "^16.7.0",
