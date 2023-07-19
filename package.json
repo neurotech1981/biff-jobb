@@ -9,7 +9,7 @@
     "concurrently": "^4.1.0",
     "final-form": "^4.11.0",
     "http-proxy-middleware": "^0.19.1",
-    "jquery": "^3.3.1",
+    "jquery": "^3.5.0",
     "lodash": "^4.17.11",
     "moment": "^2.23.0",
     "mongoose": "^5.13.20",
